@@ -34,9 +34,7 @@ export default {
   },
   methods: {
     clicked(e) {
-      console.log(e);
       this.listPlayerPos[0].setPosition(e.x, e.y);
-      console.log(this.listPlayerPos);
       // TODO: send position via service worker
     },
   },
