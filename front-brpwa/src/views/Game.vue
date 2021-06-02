@@ -1,6 +1,5 @@
 <template>
   <div class="grid-container">
-
     <grid></grid>
   </div>
 </template>
@@ -13,10 +12,10 @@ export default {
 };
 </script>
 <style scoped>
-.grid-container{
+.grid-container {
   display: grid;
   align-content: center;
-  justify-content: center;;
+  justify-content: center;
   height: 100%;
 }
 </style>

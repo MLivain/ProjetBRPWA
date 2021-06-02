@@ -2,9 +2,7 @@
   <div class="container-form">
     <div class="form">
       <v-card class="form-card" elevation="2">
-          <v-card-title class="title-card">
-              Free For All
-          </v-card-title>
+        <v-card-title class="title-card"> Free For All </v-card-title>
         <v-card-text>
           <v-text-field label="Username"></v-text-field>
           <v-text-field label="Password"></v-text-field>
@@ -36,6 +34,4 @@ export default {
   justify-content: center;
   grid-template-columns: 50%;
 }
-
-
 </style>

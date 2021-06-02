@@ -20,14 +20,14 @@ const routes = [
     component: Game,
   },
   {
-    path :"/login",
-    name : "Login" , 
-    component : Login
+    path: "/login",
+    name: "Login",
+    component: Login,
   },
   {
-    path :"/gamehistory",
-    name : "GameHistory" , 
-    component : GameHistory
+    path: "/gamehistory",
+    name: "GameHistory",
+    component: GameHistory,
   },
   {
     path: "/about",

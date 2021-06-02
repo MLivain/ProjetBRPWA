@@ -6,7 +6,7 @@
         :y="cell.y"
         :backgroundTile="cell.backgroundTile"
         :obstacleTile="cell.obstacleTile"
-        :as-player="listPlayerPos.some(e => e.isInPosition(cell.x, cell.y))"
+        :as-player="listPlayerPos.some((e) => e.isInPosition(cell.x, cell.y))"
         v-for="(cell, index) in row"
         :key="`cell-${index}`"
         v-on:cell-clicked="clicked"
@@ -21,13 +21,11 @@ import Cell from "./Cell.vue";
 import Player from "@/models/Player";
 
 export default {
-  components: {Cell},
+  components: { Cell },
   name: "Grid",
   data: () => ({
     cells: [],
-    listPlayerPos: [
-	    new Player(1,1)
-    ],
+    listPlayerPos: [new Player(1, 1)],
   }),
   async created() {
     const data = new GridData();
@@ -36,7 +34,8 @@ export default {
   },
   methods: {
     clicked(e) {
-    	this.listPlayerPos[0].setPosition(e.x, e.y);
+      this.listPlayerPos[0].setPosition(e.x, e.y);
+      // TODO: send position via service worker
     },
   },
 };
