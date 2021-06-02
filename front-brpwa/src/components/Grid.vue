@@ -31,7 +31,6 @@ export default {
     const data = new GridData();
     data.GetCellsFromJson();
     this.cells = data.cells;
-    console.log(this.listPlayerPos);
   },
   methods: {
     clicked(e) {

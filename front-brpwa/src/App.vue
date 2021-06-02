@@ -1,36 +1,22 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-app-bar app dark>
+      <v-toolbar-title>Free For All</v-toolbar-title>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+    <ul class="nav navbar-nav">
+      <router-link tag="li" active-class="active" to="/" exact><a>Accueil</a></router-link>
+      <router-link tag="li" active-class="active" to="/game"><a>Jeu</a></router-link>
+      <router-link tag="li" active-class="active" to="/gamehistory"><a>Historique</a></router-link>
+  </ul>
 
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      elevation="2"
+      color="secondary"
+      to="/login"
+    > Connexion </v-btn>
+
     </v-app-bar>
 
     <v-main>
@@ -48,3 +34,32 @@ export default {
   }),
 };
 </script>
+<style scoped>
+ul{
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: auto auto auto;
+  list-style-type: none;
+  list-style : none;
+}
+
+ul li{
+   margin-left: 10px;
+   display: grid;
+  justify-content: center;
+  align-content: center;
+     
+}
+
+a{
+  text-decoration: none;
+ color: white  !important;
+}
+
+@media (max-width: 600px){
+  .v-toolbar__title{
+    display: none;
+  }
+}
+</style>
