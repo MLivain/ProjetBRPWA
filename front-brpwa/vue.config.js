@@ -1,9 +1,8 @@
 module.exports = {
   transpileDependencies: ["vuetify"],
-  pwa: {
-    workboxPluginMode: "InjectManifest",
+  pwa: { 
     workboxOptions: {
-      swSrc: "src/service-worker.js",
+      navigateFallback: 'index.html'
     },
     iconPaths: {
       faviconSVG: "img/icons/favicon.svg",
