@@ -1,9 +1,9 @@
 module.exports = {
   transpileDependencies: ["vuetify"],
-  pwa: {
+/*  pwa: {
     workboxPluginMode: "InjectManifest",
-    workbox: {
-      swSrc: "dist/service-worker.js"
+    workboxOptions: {
+      swSrc: "src/service-worker.js",
     }
-  }
+  }*/
 };
