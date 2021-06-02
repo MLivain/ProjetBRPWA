@@ -6,6 +6,8 @@ npm install
 
 npm run build
 
+npm i -g live-server 
+
 in dist folder : live-server --port=8080 --entry-file=./index.html
 ```
 
