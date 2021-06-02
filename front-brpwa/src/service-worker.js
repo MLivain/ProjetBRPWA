@@ -12,9 +12,6 @@ const FFA_FILES = [
   "/assets/style.css",
   "/main.js",
   "/assets/logo.svg",
-  "/img/icons/favicon-32x32.png",
-  "/img/icons/favicon-16x16.png",
-  "/img/icons/android-chrome-maskable-512x512.png",
 ];
 const FFA_VUES = ["/game", "/gamehistory"];
 const FFA_CACHE = "ffa-cache";
