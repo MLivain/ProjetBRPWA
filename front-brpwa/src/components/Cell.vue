@@ -1,6 +1,7 @@
 <template>
 	<div class="cell" :class="obstacleTile < 0 ? 'hover' : '' " v-on:click="clickCell">
 		<div class="obstacle" :class="obstacleTile >= 0 ? 'hover-red' : '' " v-if="obstacleTile >= 0"></div>
+		<div class="player" v-if="asPlayer"></div>
 	</div>
 </template>
 <script>
@@ -11,10 +12,11 @@ export default {
 		x: Number,
 		y: Number,
 		obstacleTile: Number,
+		asPlayer: Boolean,
 	},
 	methods: {
 		clickCell() {
-			if (!this.obstacleTile) {
+			if (this.obstacleTile < 0) {
 				const data = {x: this.x, y: this.y};
 				this.$emit("cell-clicked", data);
 			}
@@ -49,4 +51,10 @@ export default {
 	background: rgba(255,0,0,0.5);
 }
 
+.player {
+	background-image: url("../assets/player.png");
+	z-index: 2;
+	height: inherit;
+	width: inherit;
+}
 </style>
