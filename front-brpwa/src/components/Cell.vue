@@ -1,20 +1,22 @@
 <template>
   <div
     class="cell"
-    :class="obstacleTile < 0 ? 'hover' : ''"
+    :class="isClickable ? 'hover' : ''"
     v-on:click="clickCell"
   >
     <div
       class="obstacle"
-      :class="obstacleTile >= 0 ? 'hover-red' : ''"
       v-if="obstacleTile >= 0"
     ></div>
-    <div class="player" v-if="asPlayer"></div>
+    <div class="player" v-if="asPlayer" ></div>
   </div>
 </template>
 <script>
 export default {
   name: "Cell",
+  data : () =>({
+    isClickable : false
+  }),
   props: {
     backgroundTile: Number,
     x: Number,
@@ -22,13 +24,24 @@ export default {
     obstacleTile: Number,
     asPlayer: Boolean,
   },
+  created(){
+    this.$parent.$on('cell-walkable', this.checkCellWalkable);
+  },
   methods: {
     clickCell() {
-      if (this.obstacleTile < 0) {
+      if (this.obstacleTile < 0 && this.isClickable) {
         const data = { x: this.x, y: this.y };
         this.$emit("cell-clicked", data);
       }
     },
+    checkCellWalkable(cells){
+      if(cells.some(cell=> cell.x == this.x && cell.y == this.y)){
+        this.isClickable = true;
+      }else{
+        this.isClickable = false;
+      }
+
+    }
   },
 };
 </script>
@@ -40,9 +53,7 @@ export default {
   background-image: url("../assets/TX Tileset Grass.png");
 }
 
-.cell:hover {
-  cursor: pointer;
-}
+
 
 .cell .obstacle {
   height: inherit;
@@ -51,12 +62,13 @@ export default {
   z-index: 2;
 }
 
-.hover:hover {
-  background: rgba(0, 255, 0, 0.5);
+.hover {
+  background: rgba(19, 197, 43, 0.849);
+  border: 1px black dotted;
 }
 
-.hover-red:hover {
-  background: rgba(255, 0, 0, 0.5);
+.hover:hover{
+cursor: pointer;
 }
 
 .player {

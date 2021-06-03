@@ -1,6 +1,7 @@
 <template>
   <div class="grid-container">
     <grid></grid>
+   
   </div>
 </template>
 <script>
@@ -17,5 +18,9 @@ export default {
   align-content: center;
   justify-content: center;
   height: 100%;
+}
+
+player-actions{
+  border: 1px black ;
 }
 </style>
