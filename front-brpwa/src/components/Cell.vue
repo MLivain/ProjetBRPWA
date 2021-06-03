@@ -1,7 +1,7 @@
 <template>
   <div
     class="cell"
-    :class="isClickable && !asPlayer ? 'hover' : ''"
+    :class="isClickable ? 'hover' : ''"
     v-on:click="clickCell"
   >
     <div
@@ -15,7 +15,7 @@
 export default {
   name: "Cell",
   data : () =>({
-    isClickable : false
+    isClickable : false , 
   }),
   props: {
     backgroundTile: Number,
@@ -25,7 +25,11 @@ export default {
     asPlayer: Boolean,
   },
   created(){
+
+
     this.$parent.$on('cell-walkable', this.checkCellWalkable);
+    this.$parent.$on('cell-attackable',this.checkCellAttackable);
+
   },
   methods: {
     clickCell() {
@@ -40,7 +44,13 @@ export default {
       }else{
         this.isClickable = false;
       }
-
+    },
+    checkCellAttackable(cells){
+      if(cells.some(cell=> cell.x == this.x && cell.y == this.y) && this.asPlayer){
+        this.isClickable = true;
+      }else{
+        this.isClickable = false;
+      }
     }
   },
 };

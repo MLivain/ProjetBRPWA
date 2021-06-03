@@ -17,7 +17,8 @@ export default class Player {
   }
 
   getDamages(x){
-    this.lifePoints - x;
+    
+    this.lifePoints = this.lifePoints - x;
 
     if(this.lifePoints<=0) return true;
     else return false;
