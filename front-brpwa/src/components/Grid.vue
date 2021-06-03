@@ -13,12 +13,11 @@
       >
       </cell>
     </div>
-     <div class="player-actions">
+    <div class="player-actions">
       <v-btn v-on:click="playerMove">Se déplacer</v-btn>
       <v-btn v-on:click="attack">Attaquer</v-btn>
     </div>
   </div>
-   
 </template>
 <script>
 import GridData from "../models/GridData";
@@ -30,29 +29,47 @@ export default {
   name: "Grid",
   data: () => ({
     cells: [],
-    listPlayerPos: [new Player(1, 1)],
-    grid : new GridData()
+    playerTurn: "player1",
+    listPlayerPos: [new Player("player1", 1, 1), new Player("player2", 10, 10)],
+    grid: new GridData(),
   }),
   async created() {
-   
     this.grid.GetCellsFromJson();
     this.cells = this.grid.cells;
   },
   methods: {
     clicked(e) {
-      this.listPlayerPos[0].setPosition(e.x, e.y);
-       this.$emit("cell-walkable", []);
+      const playerIndex = this.listPlayerPos.findIndex(
+        (x) => x.id == this.playerTurn
+      );
+      this.listPlayerPos[playerIndex].setPosition(e.x, e.y);
+
+      const cell = this.grid.cells[e.x][e.y];
+      cell.asPlayer = true;
+
+      this.$emit("cell-walkable", []);
+
+      const playersListSize = this.listPlayerPos.length;
+
+      if (playerIndex == playersListSize - 1) {
+        this.playerTurn = this.listPlayerPos[0].id;
+      } else {
+        this.playerTurn = this.listPlayerPos[playerIndex + 1].id;
+      }
     },
-    playerMove(){
-      const player = this.listPlayerPos[0];
-      const cells = this.grid.accessibleCellsAround(player.posX , player.posY ,5,1 , new Set());
+    playerMove() {
+      const player = this.listPlayerPos.find((x) => x.id == this.playerTurn);
+      const cells = this.grid.accessibleCellsAround(
+        player.posX,
+        player.posY,
+        5,
+        1,
+        new Set()
+      );
       this.grid.clearCellStep();
       this.$emit("cell-walkable", Array.from(cells));
-      
     },
-    attack(){
-
-    }
+    attack() {},
   },
 };
 </script>

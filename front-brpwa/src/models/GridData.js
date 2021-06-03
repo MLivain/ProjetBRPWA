@@ -10,10 +10,11 @@ export class CellData {
     this.obstacleTile = obstacleTile;
     this.accessible = false;
     this.step = 0;
+    this.asPlayer = false;
   }
 
   get isObstacle(){
-      return this.obstacleTile >=0;
+      return this.obstacleTile >=0 || this.asPlayer;
   }
 
 }
@@ -39,6 +40,7 @@ export default class GridData {
     if (x < 0 || x >= this.cells[0].length || y < 0 || y >= this.cells.length) {
       return false;
     }
+   
     return !this.cells[y][x].isObstacle;
   }
   accessibleCellsAround(x, y, distance, step ,existingSet ) {

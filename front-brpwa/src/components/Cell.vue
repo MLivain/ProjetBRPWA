@@ -1,7 +1,7 @@
 <template>
   <div
     class="cell"
-    :class="isClickable ? 'hover' : ''"
+    :class="isClickable && !asPlayer ? 'hover' : ''"
     v-on:click="clickCell"
   >
     <div
@@ -35,7 +35,7 @@ export default {
       }
     },
     checkCellWalkable(cells){
-      if(cells.some(cell=> cell.x == this.x && cell.y == this.y)){
+      if(cells.some(cell=> cell.x == this.x && cell.y == this.y) && !this.asPlayer){
         this.isClickable = true;
       }else{
         this.isClickable = false;
