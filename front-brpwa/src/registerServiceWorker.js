@@ -3,9 +3,7 @@
 import { register } from "register-service-worker";
 
 const notifyUserAboutUpdate = (worker) => {
-  alert("new content!", () => {
     worker.postMessage({ action: "skipWaiting" });
-  });
 };
 
 if (process.env.NODE_ENV === "production") {
