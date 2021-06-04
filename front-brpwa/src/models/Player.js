@@ -1,8 +1,10 @@
 export default class Player {
-  constructor(posX, posY) {
+  constructor(id ,posX, posY) {
+    this.id = id;
     this.posX = posX;
     this.posY = posY;
     this.lifePoints = 100;
+    this.attack = 10;
   }
 
   setPosition(x, y) {
@@ -13,4 +15,13 @@ export default class Player {
   isInPosition(x, y) {
     return this.posX === x && this.posY === y;
   }
+
+  getDamages(x){
+    
+    this.lifePoints = this.lifePoints - x;
+
+    if(this.lifePoints<=0) return true;
+    else return false;
+  }
+
 }
