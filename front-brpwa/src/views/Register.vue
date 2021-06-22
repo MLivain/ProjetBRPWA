@@ -10,11 +10,15 @@
             v-model="password"
             type="password"
           ></v-text-field>
+          <v-text-field
+            label="confirm Password"
+            v-model="confirmPassword"
+            type="password"
+          ></v-text-field>
         </v-card-text>
-        <a href="/register">Vous n'avez pas de compte ?</a>
         <v-card-actions>
           <v-btn text v-on:click="handleSubmit" :disabled="isDisabled">
-            Connexion
+            S'enregistrer
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -26,16 +30,17 @@
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'Login',
+  name: 'Register',
   data: () => ({
     email: null,
     password: null,
+    confirmPassword: null,
   }),
   methods: {
-    ...mapActions('user', ['login']),
+    ...mapActions('user', ['register']),
     async handleSubmit() {
-      const result = await this.login({
-        email: this.email,
+      const result = await this.register({
+        username: this.email,
         password: this.password,
       });
       console.log(result);
@@ -47,7 +52,9 @@ export default {
         !this.email ||
         this.email.length === 0 ||
         !this.password ||
-        this.password.length === 0
+        this.password.length === 0 ||
+        !this.confirmPassword ||
+        this.confirmPassword !== this.password
       );
     },
   },
