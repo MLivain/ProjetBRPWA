@@ -31,15 +31,19 @@ export default {
       await this.$router.push(`game/${party.Id}`);
     },
     async joinParty() {
-      const party = { Id: 1 };
-      if (this.codeParty) {
-        //db => join party code
-      } else {
-        //db => join random party
-      }
-      await this.$router.push(`game/${party.Id}`);
+	    try {
+		    const party = null;
+		    if (this.codeParty) {
+			    //db => join party code
+		    } else {
+			    //db => join random party
+		    }
+		    await this.$router.push(`game/${party.Id}`);
+	    } catch (e) {
+	    	console.error(e);
+	    }
     },
-  },
+},
 };
 </script>
 
