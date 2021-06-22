@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <v-row class="justify-center">
-	    <v-col v-if="!$vuetify.breakpoint.mobile">
-		    <v-spacer></v-spacer>
-	    </v-col>
+      <v-col v-if="!$vuetify.breakpoint.mobile">
+        <v-spacer></v-spacer>
+      </v-col>
       <v-col style="max-width: 100%">
         <grid v-if="this.$route.params.id"></grid>
         <create-or-join v-else></create-or-join>

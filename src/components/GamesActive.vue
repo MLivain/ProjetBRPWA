@@ -7,7 +7,7 @@
             >{{ game.players[0].user.name }} -
             {{ game.players[1].user.name }}</v-list-item-title
           >
-          <v-btn>Rejoindre</v-btn>
+          <v-btn @click="joinParty(game.Id)">Rejoindre</v-btn>
         </v-list-item>
       </v-card>
     </v-row>
@@ -37,7 +37,14 @@ export default {
       },
     ];
     this.games.push(...games);
-  }
+  },
+  methods: {
+    async joinParty(gameId) {
+      //db => join party code
+
+      await this.$router.push(`/game/${gameId}`);
+    },
+  },
 };
 </script>
 
