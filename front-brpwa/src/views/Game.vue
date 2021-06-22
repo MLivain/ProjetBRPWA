@@ -1,14 +1,14 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="2">
-        <v-spacer></v-spacer>
-      </v-col>
-      <v-col cols="6">
+    <v-row class="justify-center">
+	    <v-col v-if="!$vuetify.breakpoint.mobile">
+		    <v-spacer></v-spacer>
+	    </v-col>
+      <v-col style="max-width: 100%">
         <grid v-if="this.$route.params.id"></grid>
         <create-or-join v-else></create-or-join>
       </v-col>
-      <v-col cols="2">
+      <v-col>
         <games-active></games-active>
       </v-col>
     </v-row>
