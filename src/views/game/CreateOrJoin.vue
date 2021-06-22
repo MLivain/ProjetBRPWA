@@ -19,26 +19,23 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "CreateOrJoin",
   data: () => ({
     codeParty: null,
   }),
   methods: {
+  	...mapActions('game', ['create', 'join']),
     async createParty() {
-      //db => create party
-      const party = { Id: 1 };
+	    const party = await this.create();
       await this.$router.push(`game/${party.Id}`);
     },
     async joinParty() {
 	    try {
-		    const party = null;
-		    if (this.codeParty) {
-			    //db => join party code
-		    } else {
-			    //db => join random party
-		    }
-		    await this.$router.push(`game/${party.Id}`);
+		    const result = await this.join(this.codeParty);
+		    await this.$router.push(`game/${result.Id}`);
 	    } catch (e) {
 	    	console.error(e);
 	    }
