@@ -17,7 +17,23 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn elevation="2" color="secondary" to="/login"> Connexion </v-btn>
+      <v-btn
+        elevation="2"
+        color="secondary"
+        to="/login"
+        v-if="!this.getLoggedIn"
+      >
+        Connexion
+      </v-btn>
+      <v-btn
+        elevation="2"
+        color="secondary"
+        to="/login"
+        v-if="this.getLoggedIn"
+        v-on:click="this.logout"
+      >
+        Déconnexion
+      </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -27,12 +43,18 @@
 </template>
 
 <script>
-export default {
-  name: "App",
+import { mapActions, mapGetters } from 'vuex';
 
-  data: () => ({
-    //
-  }),
+export default {
+  name: 'App',
+
+  data: () => ({}),
+  computed: {
+    ...mapGetters('user', ['getLoggedIn', 'getCurrentUser']),
+  },
+  methods: {
+    ...mapActions('user', ['logout']),
+  },
 };
 </script>
 <style scoped>
