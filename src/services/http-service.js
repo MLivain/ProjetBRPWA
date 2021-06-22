@@ -9,18 +9,17 @@ export const http = {
 
 async function sendRequest(method, url, data, needToken) {
   let option = {};
-  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   if (needToken) {
     const token = getToken();
     if (token != null)
       option = {
         method,
         data,
-        headers: { Authorization: token, 'Access-Control-Allow-Origin': '*' },
+        headers: { Authorization: token},
       };
     else return { error: true, message: 'dont have access token' };
   } else {
-    option = { method, data, headers: { 'Access-Control-Allow-Origin': '*' } };
+    option = { method, data};
   }
   try {
     console.log(`${config().apiUrl} ${url}`);
