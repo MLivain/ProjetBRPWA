@@ -3,7 +3,7 @@
 import { register } from "register-service-worker";
 
 const notifyUserAboutUpdate = (worker) => {
-    worker.postMessage({ action: "skipWaiting" });
+  worker.postMessage({ action: "skipWaiting" });
 };
 
 if (process.env.NODE_ENV === "production") {

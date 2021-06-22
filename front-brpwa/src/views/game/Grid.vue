@@ -25,14 +25,15 @@
   </div>
 </template>
 <script>
-import GridData from "../models/GridData";
-import Cell from "./Cell.vue";
+import GridData from "../../models/GridData";
+import Cell from "../../components/Cell.vue";
 import Player from "@/models/Player";
 
 export default {
   components: { Cell },
   name: "Grid",
   data: () => ({
+    // don't know where to pu it but : this.$route.params.id to get the game id
     cells: [],
     playerTurn: "player1",
     playerMovement: "moving",
@@ -113,15 +114,15 @@ export default {
       this.grid.clearCellStep();
 
       if (cells.size > 0) {
-        console.log(player.posX+ ' '+ player.posY)
+        console.log(player.posX + " " + player.posY);
         var filteredCells = Array.from(cells);
 
         // regarder avec le filter (marche pas avec arr.x != player.posX && arr.y != player.posY)
-        filteredCells.forEach((item,index)=>{
-          if(item.x == player.posX && item.y == player.posY){
-            filteredCells.splice(index,1);
+        filteredCells.forEach((item, index) => {
+          if (item.x == player.posX && item.y == player.posY) {
+            filteredCells.splice(index, 1);
           }
-        })
+        });
         this.playerMovement = "attacking";
         this.$emit("cell-attackable", filteredCells);
       }

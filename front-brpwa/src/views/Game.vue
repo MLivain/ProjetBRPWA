@@ -1,14 +1,26 @@
 <template>
-  <div class="grid-container">
-    <grid></grid>
-   
-  </div>
+  <v-container>
+    <v-row>
+      <v-col cols="2">
+        <v-spacer></v-spacer>
+      </v-col>
+      <v-col cols="6">
+        <grid v-if="this.$route.params.id"></grid>
+        <create-or-join v-else></create-or-join>
+      </v-col>
+      <v-col cols="2">
+        <games-active></games-active>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
-import Grid from "../components/Grid.vue";
+import Grid from "./game/Grid.vue";
+import CreateOrJoin from "@/views/game/CreateOrJoin";
+import GamesActive from "@/components/GamesActive";
 
 export default {
-  components: { Grid },
+  components: { GamesActive, CreateOrJoin, Grid },
   name: "Game",
 };
 </script>
@@ -20,7 +32,7 @@ export default {
   height: 100%;
 }
 
-player-actions{
-  border: 1px black ;
+player-actions {
+  border: 1px black;
 }
 </style>

@@ -18,6 +18,12 @@ const routes = [
     path: "/game",
     name: "Game",
     component: Game,
+    children: [
+      {
+        path: ":id",
+        component: Game,
+      },
+    ],
   },
   {
     path: "/login",

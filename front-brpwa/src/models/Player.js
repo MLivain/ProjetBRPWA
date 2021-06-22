@@ -1,5 +1,5 @@
 export default class Player {
-  constructor(id ,posX, posY) {
+  constructor(id, posX, posY) {
     this.id = id;
     this.posX = posX;
     this.posY = posY;
@@ -16,12 +16,10 @@ export default class Player {
     return this.posX === x && this.posY === y;
   }
 
-  getDamages(x){
-    
+  getDamages(x) {
     this.lifePoints = this.lifePoints - x;
 
-    if(this.lifePoints<=0) return true;
+    if (this.lifePoints <= 0) return true;
     else return false;
   }
-
 }

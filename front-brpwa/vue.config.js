@@ -1,8 +1,8 @@
 module.exports = {
   transpileDependencies: ["vuetify"],
-  pwa: { 
+  pwa: {
     workboxOptions: {
-      navigateFallback: 'index.html'
+      navigateFallback: "index.html",
     },
     iconPaths: {
       faviconSVG: "img/icons/favicon.svg",
