@@ -1,49 +1,65 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import Game from "../views/Game.vue";
-import GameHistory from "../views/GameHistory.vue";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '../views/Home.vue';
+import Game from '../views/Game.vue';
+import GameHistory from '../views/GameHistory.vue';
 
-import Login from "../views/Login.vue";
+import Login from '../views/Login.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',
+    name: 'Home',
     component: Home,
   },
   {
-    path: "/game",
-    name: "Game",
+    path: '/game',
+    name: 'Game',
     component: Game,
   },
   {
-    path: "/login",
-    name: "Login",
+    path: '/login',
+    name: 'Login',
     component: Login,
   },
   {
-    path: "/gamehistory",
-    name: "GameHistory",
+    path: '/gamehistory',
+    name: 'GameHistory',
     component: GameHistory,
   },
   {
-    path: "/about",
-    name: "About",
+    path: '/about',
+    name: 'About',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register', '/'];
+  const authRequired = !publicPages.includes(to.path);
+
+  const user = localStorage.getItem('user');
+
+  if (authRequired && !user) {
+    return next('/login');
+  } else if (user && to.fullPath.includes('admin')) {
+    const data = JSON.parse(user);
+    if (data.type.toUpperCase() != 'ADMIN') return next('/unauthorized');
+  }
+
+  next();
 });
 
 export default router;
