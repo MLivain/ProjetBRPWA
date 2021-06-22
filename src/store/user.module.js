@@ -1,4 +1,5 @@
 import { userService } from '../services/user-service';
+import { askNotificationPermission } from '../services/notif-service';
 import router from '../router/index';
 
 const currentUser = localStorage.getItem('user')
@@ -13,9 +14,10 @@ const actions = {
     if (response.error) commit('loginFailure', response.message);
     else {
       commit('loginSuccess', response);
-      localStorage.setItem('jwt', btoa(response.token));
+      localStorage.setItem('jwt', response.token);
       localStorage.setItem('user', JSON.stringify(response.model));
       router.push('/');
+      askNotificationPermission();
       return true;
     }
     return false;

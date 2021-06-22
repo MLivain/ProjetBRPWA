@@ -12,7 +12,7 @@ async function login(username, password) {
     { username, password },
     false
   );
-  if (data.token) data.token = btoa(data.token);
+  // if (data.token) data.token = btoa(data.token);
   return data;
 }
 
