@@ -25,14 +25,17 @@
   </div>
 </template>
 <script>
-import GridData from "../models/GridData";
-import Cell from "./Cell.vue";
+import GridData from "../../models/GridData";
+import Cell from "../../components/Cell.vue";
 import Player from "@/models/Player";
 
 export default {
   components: { Cell },
   name: "Grid",
   data: () => ({
+    //TODO : set player from db
+    //TODO : make the player join
+    // don't know where to put it but : this.$route.params.id to get the game id
     cells: [],
     playerTurn: "player1",
     playerMovement: "moving",

@@ -27,17 +27,17 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
-  name: 'Register',
+  name: "Register",
   data: () => ({
     email: null,
     password: null,
     confirmPassword: null,
   }),
   methods: {
-    ...mapActions('user', ['register']),
+    ...mapActions("user", ["register"]),
     async handleSubmit() {
       const result = await this.register({
         username: this.email,
