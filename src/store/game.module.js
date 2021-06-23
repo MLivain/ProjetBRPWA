@@ -2,15 +2,22 @@ import { gameService } from "../services/game-service";
 
 const state = () => ({
   games: [],
+  activeGames: [],
 });
 
 const mutations = {
   create(state, game) {
     state.games.push(game);
   },
+  getAll(state, games) {
+    state.games = games;
+  },
   getSet(state, game) {
     const index = state.games.findIndex((thisGame) => thisGame.Id === game.Id);
     state.games[index] = game;
+  },
+  getActive(state, games) {
+    state.activeGames = games;
   },
   join(state, game) {
     state.games.push(game);
@@ -42,6 +49,22 @@ const actions = {
     }
     return false;
   },
+  async getAll({ commit }) {
+    const response = await gameService.getAllGames();
+    if (!response.error) {
+      commit("getAll", response);
+      return response;
+    }
+    return false;
+  },
+  async getActive({ commit }) {
+    const response = await gameService.getActiveGames();
+    if (!response.error) {
+      commit("getActive", response);
+      return response;
+    }
+    return false;
+  },
   async join({ commit }, gameId) {
     const response = await gameService.join(gameId);
     if (!response.error) {
@@ -54,6 +77,7 @@ const actions = {
 
 const getters = {
   getGames: (games) => games,
+  getActiveGames: (activeGames) => activeGames,
 };
 
 export const game = {

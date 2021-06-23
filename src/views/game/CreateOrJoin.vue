@@ -31,6 +31,7 @@ export default {
     async createParty() {
       try {
         const game = await this.create();
+        await this.join(game.id);
         await this.$router.push(`game/${game.id}`);
       } catch (e) {
         console.error(e);

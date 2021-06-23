@@ -5,6 +5,8 @@ export const gameService = {
   set,
   get,
   join,
+  getAllGames,
+  getActiveGames,
 };
 
 async function create() {
@@ -42,6 +44,21 @@ async function get(gameId) {
     "POST",
     "/game/getGame",
     { gameId },
+    true
+  );
+  return data;
+}
+
+async function getAllGames() {
+  const data = await http.sendRequest("POST", "/user/getAllGames", {}, true);
+  return data;
+}
+
+async function getActiveGames() {
+  const data = await http.sendRequest(
+    "POST",
+    "/user/getUserActiveGames",
+    {},
     true
   );
   return data;
