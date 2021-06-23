@@ -43,17 +43,17 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: 'App',
+  name: "App",
 
   data: () => ({}),
   computed: {
-    ...mapGetters('user', ['getLoggedIn', 'getCurrentUser']),
+    ...mapGetters("user", ["getLoggedIn", "getCurrentUser"]),
   },
   methods: {
-    ...mapActions('user', ['logout']),
+    ...mapActions("user", ["logout"]),
   },
 };
 </script>

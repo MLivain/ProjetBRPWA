@@ -1,21 +1,14 @@
 <template>
-  <div
-    class="cell"
-    :class="isClickable ? 'hover' : ''"
-    v-on:click="clickCell"
-  >
-    <div
-      class="obstacle"
-      v-if="obstacleTile >= 0"
-    ></div>
-    <div class="player" v-if="asPlayer" ></div>
+  <div class="cell" :class="isClickable ? 'hover' : ''" v-on:click="clickCell">
+    <div class="obstacle" v-if="obstacleTile >= 0"></div>
+    <div class="player" v-if="asPlayer"></div>
   </div>
 </template>
 <script>
 export default {
   name: "Cell",
-  data : () =>({
-    isClickable : false , 
+  data: () => ({
+    isClickable: false,
   }),
   props: {
     backgroundTile: Number,
@@ -24,12 +17,9 @@ export default {
     obstacleTile: Number,
     asPlayer: Boolean,
   },
-  created(){
-
-
-    this.$parent.$on('cell-walkable', this.checkCellWalkable);
-    this.$parent.$on('cell-attackable',this.checkCellAttackable);
-
+  created() {
+    this.$parent.$on("cell-walkable", this.checkCellWalkable);
+    this.$parent.$on("cell-attackable", this.checkCellAttackable);
   },
   methods: {
     clickCell() {
@@ -38,20 +28,26 @@ export default {
         this.$emit("cell-clicked", data);
       }
     },
-    checkCellWalkable(cells){
-      if(cells.some(cell=> cell.x == this.x && cell.y == this.y) && !this.asPlayer){
+    checkCellWalkable(cells) {
+      if (
+        cells.some((cell) => cell.x == this.x && cell.y == this.y) &&
+        !this.asPlayer
+      ) {
         this.isClickable = true;
-      }else{
+      } else {
         this.isClickable = false;
       }
     },
-    checkCellAttackable(cells){
-      if(cells.some(cell=> cell.x == this.x && cell.y == this.y) && this.asPlayer){
+    checkCellAttackable(cells) {
+      if (
+        cells.some((cell) => cell.x == this.x && cell.y == this.y) &&
+        this.asPlayer
+      ) {
         this.isClickable = true;
-      }else{
+      } else {
         this.isClickable = false;
       }
-    }
+    },
   },
 };
 </script>
@@ -62,8 +58,6 @@ export default {
   width: 24px;
   background-image: url("../assets/TX Tileset Grass.png");
 }
-
-
 
 .cell .obstacle {
   height: inherit;
@@ -77,8 +71,8 @@ export default {
   border: 1px black dotted;
 }
 
-.hover:hover{
-cursor: pointer;
+.hover:hover {
+  cursor: pointer;
 }
 
 .player {

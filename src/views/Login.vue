@@ -23,16 +23,16 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
-  name: 'Login',
+  name: "Login",
   data: () => ({
     email: null,
     password: null,
   }),
   methods: {
-    ...mapActions('user', ['login']),
+    ...mapActions("user", ["login"]),
     async handleSubmit() {
       const result = await this.login({
         email: this.email,

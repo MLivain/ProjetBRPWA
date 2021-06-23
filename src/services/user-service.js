@@ -1,4 +1,4 @@
-import { http } from './http-service';
+import { http } from "./http-service";
 
 export const userService = {
   login,
@@ -7,8 +7,8 @@ export const userService = {
 
 async function login(username, password) {
   const data = await http.sendRequest(
-    'POST',
-    '/user/login',
+    "POST",
+    "/user/login",
     { username, password },
     false
   );
@@ -17,5 +17,5 @@ async function login(username, password) {
 }
 
 async function register(user) {
-  return await http.sendRequest('POST', '/user/register', user, false);
+  return await http.sendRequest("POST", "/user/register", user, false);
 }

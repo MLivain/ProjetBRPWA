@@ -10,7 +10,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in GetUnfinishedGames()" :key="item.name">
+            <tr v-for="item in getUnfinishedGames()" :key="item.name">
               <td>{{ item.name }}</td>
             </tr>
           </tbody>
@@ -28,7 +28,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in GetFinishedGames()" :key="item.name">
+            <tr v-for="item in getFinishedGames()" :key="item.name">
               <td>{{ item.name }}</td>
               <td>{{ item.position }}</td>
             </tr>
@@ -40,21 +40,28 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "GameHistory",
   data: () => ({
-    games: [
-      { name: "Game1 ", position: 1, done: true },
-      { name: "Game2", position: null, done: false },
-    ],
+    games: [],
   }),
-
-  methods: {
-    GetFinishedGames() {
+  created: function () {
+    this.getGames();
+  },
+  computed: {
+    getFinishedGames() {
       return this.games.filter((x) => x.done);
     },
-    GetUnfinishedGames() {
+    getUnfinishedGames() {
       return this.games.filter((x) => !x.done);
+    },
+  },
+  methods: {
+    ...mapActions("game", ["getAll"]),
+    async getGames() {
+      return await this.getAll();
     },
   },
 };

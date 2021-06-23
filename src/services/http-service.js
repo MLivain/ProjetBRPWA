@@ -1,7 +1,7 @@
-import axios from 'axios';
-import config from './config';
+import axios from "axios";
+import config from "./config";
 
-import store from '../store/index';
+import store from "../store/index";
 
 export const http = {
   sendRequest,
@@ -15,9 +15,9 @@ async function sendRequest(method, url, data, needToken) {
       option = {
         method,
         data,
-        headers: { AppToken: token, 'Content-Type': 'application/json' },
+        headers: { AppToken: token, "Content-Type": "application/json" },
       };
-    else return { error: true, message: 'dont have access token' };
+    else return { error: true, message: "dont have access token" };
   } else {
     option = { method, data };
   }
@@ -28,17 +28,17 @@ async function sendRequest(method, url, data, needToken) {
       // localStorage.setItem('jwt', response.headers.authorization);
       return response.data;
     } else {
-      if (response.status == 401) store.dispatch('user/logout');
+      if (response.status == 401) store.dispatch("user/logout");
       return { error: true, message: response.data };
     }
   } catch (error) {
-    if (error.response.status == 401) store.dispatch('user/logout');
+    if (error.response.status == 401) store.dispatch("user/logout");
     return { error: true, message: error.message };
   }
 }
 
 function getToken() {
-  const currentJwt = localStorage.getItem('jwt');
+  const currentJwt = localStorage.getItem("jwt");
   if (currentJwt) {
     return currentJwt;
   }
