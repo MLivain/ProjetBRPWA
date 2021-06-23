@@ -15,7 +15,7 @@ async function sendRequest(method, url, data, needToken) {
       option = {
         method,
         data,
-        headers: { AppToken: token, 'Content-Type': 'application/json' },
+        headers: { AppToken: token, "Content-Type": "application/json" },
       };
     else return { error: true, message: "dont have access token" };
   } else {
@@ -28,11 +28,11 @@ async function sendRequest(method, url, data, needToken) {
       // localStorage.setItem('jwt', response.headers.authorization);
       return response.data;
     } else {
-      if (response.status == 401) store.dispatch('user/logout');
+      if (response.status == 401) store.dispatch("user/logout");
       return { error: true, message: response.data };
     }
   } catch (error) {
-    if (error.response.status == 401) store.dispatch('user/logout');
+    if (error.response.status == 401) store.dispatch("user/logout");
     return { error: true, message: error.message };
   }
 }
