@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     async joinParty(gameId) {
-      //db => join party code
+      //TODO: db => join party code
 
       await this.$router.push(`/game/${gameId}`);
     },

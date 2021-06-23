@@ -43,6 +43,7 @@
 export default {
   name: "GameHistory",
   data: () => ({
+    //db
     games: [
       { name: "Game1 ", position: 1, done: true },
       { name: "Game2", position: null, done: false },

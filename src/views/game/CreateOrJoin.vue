@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
   name: "CreateOrJoin",
@@ -27,20 +27,24 @@ export default {
     codeParty: null,
   }),
   methods: {
-  	...mapActions('game', ['create', 'join']),
+    ...mapActions("game", ["create", "join"]),
     async createParty() {
-	    const party = await this.create();
-      await this.$router.push(`game/${party.Id}`);
+      try {
+        const game = await this.create();
+        await this.$router.push(`game/${game.id}`);
+      } catch (e) {
+        console.error(e);
+      }
     },
     async joinParty() {
-	    try {
-		    const result = await this.join(this.codeParty);
-		    await this.$router.push(`game/${result.Id}`);
-	    } catch (e) {
-	    	console.error(e);
-	    }
+      try {
+        const game = await this.join(this.codeParty);
+        await this.$router.push(`game/${game.id}`);
+      } catch (e) {
+        console.error(e);
+      }
     },
-},
+  },
 };
 </script>
 

@@ -33,7 +33,9 @@ export default {
   components: { Cell },
   name: "Grid",
   data: () => ({
-    // don't know where to pu it but : this.$route.params.id to get the game id
+	  //TODO : set player from db
+	  //TODO : make the player join
+    // don't know where to put it but : this.$route.params.id to get the game id
     cells: [],
     playerTurn: "player1",
     playerMovement: "moving",

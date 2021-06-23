@@ -113,15 +113,15 @@ export default {
       this.grid.clearCellStep();
 
       if (cells.size > 0) {
-        console.log(player.posX+ ' '+ player.posY)
+        console.log(player.posX + " " + player.posY);
         var filteredCells = Array.from(cells);
 
         // regarder avec le filter (marche pas avec arr.x != player.posX && arr.y != player.posY)
-        filteredCells.forEach((item,index)=>{
-          if(item.x == player.posX && item.y == player.posY){
-            filteredCells.splice(index,1);
+        filteredCells.forEach((item, index) => {
+          if (item.x == player.posX && item.y == player.posY) {
+            filteredCells.splice(index, 1);
           }
-        })
+        });
         this.playerMovement = "attacking";
         this.$emit("cell-attackable", filteredCells);
       }
