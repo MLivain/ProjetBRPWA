@@ -45,7 +45,7 @@ async function get(gameId) {
 }
 
 async function getAllGames() {
-  const data = await http.sendRequest("POST", "/user/getAllGames", {}, true);
+  const data = await http.sendRequest("POST", "/user/getUserAllGames", {}, true);
   return data;
 }
 
