@@ -19,15 +19,15 @@ async function join(gameId) {
   if (gameId) {
     data = await http.sendRequest(
       "POST",
-      "/game/joinGame",
-      { IdGame: gameId, Life: 100, Damage: 20, Movement: 5 },
+      `/game/joinGame?IdGame=${gameId}&Life=100&Damage=20&Movement=5`,
+      {},
       true
     );
   } else {
     data = await http.sendRequest(
       "POST",
-      "/game/joinRandomGame",
-      { Life: 100, Damage: 20, Movement: 5 },
+      "/game/joinRandomGame?Life=100&Damage=20&Movement=5",
+      {},
       true
     );
   }
@@ -40,12 +40,7 @@ async function set(game) {
 }
 
 async function get(gameId) {
-  const data = await http.sendRequest(
-    "POST",
-    "/game/getGame",
-    { gameId },
-    true
-  );
+  const data = await http.sendRequest("POST", `/game/${gameId}`, {}, true);
   return data;
 }
 

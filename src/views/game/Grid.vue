@@ -25,6 +25,8 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
+
 import GridData from "../../models/GridData";
 import Cell from "../../components/Cell.vue";
 import Player from "@/models/Player";
@@ -42,11 +44,18 @@ export default {
     listPlayerPos: [new Player("player1", 1, 1), new Player("player2", 10, 10)],
     grid: new GridData(),
   }),
-  async created() {
+  mounted() {
+    this.setGame();
     this.grid.GetCellsFromJson();
     this.cells = this.grid.cells;
   },
   methods: {
+    ...mapActions("game", ["get"]),
+    async setGame() {
+      const game = await this.get(this.$route.params.id);
+      this.listPlayerPos = game.listPlayerPos;
+      this.playerTurn = game.playerTurn;
+    },
     clicked(e) {
       if (this.playerMovement == "moving") {
         this.movePlayer(e.x, e.y);
