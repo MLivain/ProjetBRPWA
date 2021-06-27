@@ -19,13 +19,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions/*, mapGetters*/ } from "vuex";
 
 export default {
   name: "CreateOrJoin",
   data: () => ({
     codeParty: null,
-    games: [],
   }),
   methods: {
     ...mapActions("game", ["create", "join"]),
@@ -40,20 +39,20 @@ export default {
     },
     async joinParty() {
       try {
-        if (this.codeParty && this.getGames.includes(this.codeParty)) {
+        /*if (this.codeParty && this.getGames.includes(this.codeParty)) {
           await this.$router.push(`game/${this.codeParty}`);
-        } else {
-          const game = await this.join(this.codeParty);
-          await this.$router.push(`game/${game.game.id}`);
-        }
+        } else {*/
+        const game = await this.join(this.codeParty);
+        await this.$router.push(`game/${game.game.id}`);
+        // }
       } catch (e) {
         console.error(e);
       }
     },
-  },
+  },/*
   computed: {
     ...mapGetters("game", ["getGames"]),
-  },
+  },*/
 };
 </script>
 
