@@ -6,7 +6,10 @@
         :y="cell.y"
         :backgroundTile="cell.backgroundTile"
         :obstacleTile="cell.obstacleTile"
-        :as-player="listPlayerPos.some((e) => e.isInPosition(cell.x, cell.y))"
+        :as-player="
+          listPlayerPos &&
+          listPlayerPos.some((e) => e.isInPosition(cell.x, cell.y))
+        "
         v-for="(cell, index) in row"
         :key="`cell-${index}`"
         v-on:cell-clicked="clicked"
@@ -14,8 +17,33 @@
       </cell>
     </div>
     <div class="player-actions">
-      <v-btn v-on:click="getCellsMove">Se déplacer</v-btn>
-      <v-btn v-on:click="getCellsAttack">Attaquer</v-btn>
+      <v-btn
+        v-on:click="getCellsMove"
+        :disabled="
+          playerTurn !== getCurrentUser.user.username ||
+          playerTurn === '' ||
+          listPlayerPos.length < 2
+        "
+        >Se déplacer</v-btn
+      >
+      <v-btn
+        v-on:click="getCellsAttack"
+        :disabled="
+          playerTurn !== getCurrentUser.user.username ||
+          playerTurn === '' ||
+          listPlayerPos.length < 2
+        "
+        >Attaquer</v-btn
+      >
+      <v-btn
+        v-on:click="changeTurn"
+        :disabled="
+          playerTurn !== getCurrentUser.user.username ||
+          playerTurn === '' ||
+          listPlayerPos.length < 2
+        "
+        >Passer le tour</v-btn
+      >
     </div>
     <div class="players-life">
       <div v-for="player in listPlayerPos" v-bind:key="player.id">
@@ -25,9 +53,11 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from "vuex";
+
+import Player from "../../models/Player";
 import GridData from "../../models/GridData";
 import Cell from "../../components/Cell.vue";
-import Player from "@/models/Player";
 
 export default {
   components: { Cell },
@@ -37,16 +67,28 @@ export default {
     //TODO : make the player join
     // don't know where to put it but : this.$route.params.id to get the game id
     cells: [],
-    playerTurn: "player1",
+    playerTurn: "",
     playerMovement: "moving",
-    listPlayerPos: [new Player("player1", 1, 1), new Player("player2", 10, 10)],
+    listPlayerPos: [],
     grid: new GridData(),
   }),
-  async created() {
+  mounted() {
+    this.setGame();
     this.grid.GetCellsFromJson();
     this.cells = this.grid.cells;
   },
   methods: {
+    ...mapActions("game", ["get", "getPlayers", "changeTurnFunc"]),
+    async setGame() {
+      const game = await this.get(this.$route.params.id);
+      this.playerTurn = game.playerTurn;
+      const players = await this.getPlayers(this.$route.params.id);
+      players.forEach((player) =>
+        this.listPlayerPos.push(
+          new Player(player.id, player.coordinateX, player.coordinateY)
+        )
+      );
+    },
     clicked(e) {
       if (this.playerMovement == "moving") {
         this.movePlayer(e.x, e.y);
@@ -77,17 +119,22 @@ export default {
       }
       this.changeTurn();
     },
-    changeTurn() {
+    async changeTurn() {
       this.$emit("cell-walkable", []);
-      const playerIndex = this.listPlayerPos.findIndex(
-        (x) => x.id == this.playerTurn
-      );
-      const playersListSize = this.listPlayerPos.length;
-      if (playerIndex == playersListSize - 1) {
-        this.playerTurn = this.listPlayerPos[0].id;
-      } else {
-        this.playerTurn = this.listPlayerPos[playerIndex + 1].id;
-      }
+      const data = await this.changeTurnFunc([
+        this.$route.params.id,
+        this.playerTurn,
+      ]);
+      this.playerTurn = data.playerTurn;
+      /*const playerIndex = this.listPlayerPos.findIndex(
+		  (x) => x.id == this.playerTurn
+		);
+		const playersListSize = this.listPlayerPos.length;
+		if (playerIndex == playersListSize - 1) {
+		  this.playerTurn = this.listPlayerPos[0].id;
+		} else {
+		  this.playerTurn = this.listPlayerPos[playerIndex + 1].id;
+		}*/
     },
     getCellsMove() {
       const player = this.listPlayerPos.find((x) => x.id == this.playerTurn);
@@ -129,6 +176,9 @@ export default {
         this.$emit("cell-attackable", filteredCells);
       }
     },
+  },
+  computed: {
+    ...mapGetters("user", ["getCurrentUser"]),
   },
 };
 </script>

@@ -7,6 +7,8 @@ export const gameService = {
   join,
   getAllGames,
   getActiveGames,
+  changeTurnFunc,
+  getPlayers,
 };
 
 async function create() {
@@ -19,15 +21,15 @@ async function join(gameId) {
   if (gameId) {
     data = await http.sendRequest(
       "POST",
-      "/game/joinGame",
-      { IdGame: gameId, Life: 100, Damage: 20, Movement: 5 },
+      `/game/joinGame?IdGame=${gameId}&Life=100&Damage=20&Movement=5`,
+      {},
       true
     );
   } else {
     data = await http.sendRequest(
       "POST",
-      "/game/joinRandomGame",
-      { Life: 100, Damage: 20, Movement: 5 },
+      "/game/joinRandomGame?Life=100&Damage=20&Movement=5",
+      {},
       true
     );
   }
@@ -40,17 +42,17 @@ async function set(game) {
 }
 
 async function get(gameId) {
-  const data = await http.sendRequest(
-    "POST",
-    "/game/getGame",
-    { gameId },
-    true
-  );
+  const data = await http.sendRequest("POST", `/game/${gameId}`, {}, true);
   return data;
 }
 
 async function getAllGames() {
-  const data = await http.sendRequest("POST", "/user/getAllGames", {}, true);
+  const data = await http.sendRequest(
+    "POST",
+    "/user/getUserAllGames",
+    {},
+    true
+  );
   return data;
 }
 
@@ -58,6 +60,26 @@ async function getActiveGames() {
   const data = await http.sendRequest(
     "POST",
     "/user/getUserActiveGames",
+    {},
+    true
+  );
+  return data;
+}
+
+async function changeTurnFunc(idGame, username) {
+  const data = await http.sendRequest(
+    "POST",
+    `/game/changeTurn?IdGame=${idGame}&userName=${username}&posX=1&posY=1`,
+    {},
+    true
+  );
+  return data;
+}
+
+async function getPlayers(idGame) {
+  const data = await http.sendRequest(
+    "GET",
+    `/game/${idGame}/players`,
     {},
     true
   );
