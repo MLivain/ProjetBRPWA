@@ -17,3 +17,8 @@ Etant donné que l'application est assez légère, nous avons décider de tout m
 Pour ce faire, nous avons utilisé le service worker fourni par VueJS (dans le fichier de config vue.config.js).
 Dans le futur, nous comptons mettre en cache les parties jouées, en cours et le niveau des joueurs anonymes.
 ```
+
+## Retouches effectuées entre le 23/06 et le 27/06
+
+Travaux et correction menés pour obtenir un bon score lors des tests Lighthouse
+A noter : la redirection http vers https sur heroku néccesite de payer en version payante 
