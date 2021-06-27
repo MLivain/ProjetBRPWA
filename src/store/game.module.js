@@ -22,6 +22,10 @@ const mutations = {
   join(state, game) {
     state.games.push(game);
   },
+  setPlayers(state, players, idGame) {
+    const index = state.games.findIndex((thisGame) => thisGame.Id === idGame);
+    state.games[index].listPlayers = players;
+  },
 };
 
 const actions = {
@@ -73,15 +77,18 @@ const actions = {
     }
     return false;
   },
-  async changeTurn({ commit }, gameId, playerTurn, posX, posY) {
-    const response = await gameService.changeTurn(
-      gameId,
-      playerTurn,
-      posX,
-      posY
-    );
+  async changeTurnFunc({ commit }, [gameId, playerTurn]) {
+    const response = await gameService.changeTurnFunc(gameId, playerTurn);
     if (!response.error) {
       commit("getSet", response.game);
+      return response;
+    }
+    return false;
+  },
+  async getPlayers({ commit }, gameId) {
+    const response = await gameService.getPlayers(gameId);
+    if (!response.error) {
+      commit("setPlayers", response, gameId);
       return response;
     }
     return false;
