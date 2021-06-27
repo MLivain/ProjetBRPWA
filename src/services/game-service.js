@@ -7,7 +7,8 @@ export const gameService = {
   join,
   getAllGames,
   getActiveGames,
-  changeTurn,
+  changeTurnFunc,
+  getPlayers,
 };
 
 async function create() {
@@ -65,11 +66,21 @@ async function getActiveGames() {
   return data;
 }
 
-async function changeTurn(idGame, username, posX, posY) {
+async function changeTurnFunc(idGame, username) {
   const data = await http.sendRequest(
     "POST",
-    "/game/changeTurn",
-    { idGame, username, posX, posY },
+    `/game/changeTurn?IdGame=${idGame}&userName=${username}&posX=1&posY=1`,
+    {},
+    true
+  );
+  return data;
+}
+
+async function getPlayers(idGame) {
+  const data = await http.sendRequest(
+    "GET",
+    `/game/${idGame}/players`,
+    {},
     true
   );
   return data;

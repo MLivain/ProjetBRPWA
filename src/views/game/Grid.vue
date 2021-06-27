@@ -19,13 +19,30 @@
     <div class="player-actions">
       <v-btn
         v-on:click="getCellsMove"
-        :disabled="playerTurn !== user || playerTurn === ''"
+        :disabled="
+          playerTurn !== getCurrentUser.user.username ||
+          playerTurn === '' ||
+          listPlayerPos.length < 2
+        "
         >Se déplacer</v-btn
       >
       <v-btn
         v-on:click="getCellsAttack"
-        :disabled="playerTurn !== user || playerTurn === ''"
+        :disabled="
+          playerTurn !== getCurrentUser.user.username ||
+          playerTurn === '' ||
+          listPlayerPos.length < 2
+        "
         >Attaquer</v-btn
+      >
+      <v-btn
+        v-on:click="changeTurn"
+        :disabled="
+          playerTurn !== getCurrentUser.user.username ||
+          playerTurn === '' ||
+          listPlayerPos.length < 2
+        "
+        >Passer le tour</v-btn
       >
     </div>
     <div class="players-life">
@@ -36,8 +53,9 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
+import Player from "../../models/Player";
 import GridData from "../../models/GridData";
 import Cell from "../../components/Cell.vue";
 
@@ -49,7 +67,6 @@ export default {
     //TODO : make the player join
     // don't know where to put it but : this.$route.params.id to get the game id
     cells: [],
-    user: "",
     playerTurn: "",
     playerMovement: "moving",
     listPlayerPos: [],
@@ -61,12 +78,16 @@ export default {
     this.cells = this.grid.cells;
   },
   methods: {
-    ...mapActions("game", ["get", "changeTurn"]),
+    ...mapActions("game", ["get", "getPlayers", "changeTurnFunc"]),
     async setGame() {
       const game = await this.get(this.$route.params.id);
-      console.log(game);
-      this.listPlayerPos = game.listPlayerPos;
       this.playerTurn = game.playerTurn;
+      const players = await this.getPlayers(this.$route.params.id);
+      players.forEach((player) =>
+        this.listPlayerPos.push(
+          new Player(player.id, player.coordinateX, player.coordinateY)
+        )
+      );
     },
     clicked(e) {
       if (this.playerMovement == "moving") {
@@ -100,12 +121,10 @@ export default {
     },
     async changeTurn() {
       this.$emit("cell-walkable", []);
-      const data = await this.changeTurn(
+      const data = await this.changeTurnFunc([
         this.$route.params.id,
         this.playerTurn,
-        0,
-        0
-      );
+      ]);
       this.playerTurn = data.playerTurn;
       /*const playerIndex = this.listPlayerPos.findIndex(
 		  (x) => x.id == this.playerTurn
@@ -157,6 +176,9 @@ export default {
         this.$emit("cell-attackable", filteredCells);
       }
     },
+  },
+  computed: {
+    ...mapGetters("user", ["getCurrentUser"]),
   },
 };
 </script>
