@@ -6,7 +6,10 @@
         :y="cell.y"
         :backgroundTile="cell.backgroundTile"
         :obstacleTile="cell.obstacleTile"
-        :as-player="listPlayerPos.some((e) => e.isInPosition(cell.x, cell.y))"
+        :as-player="
+          listPlayerPos &&
+          listPlayerPos.some((e) => e.isInPosition(cell.x, cell.y))
+        "
         v-for="(cell, index) in row"
         :key="`cell-${index}`"
         v-on:cell-clicked="clicked"
@@ -14,8 +17,16 @@
       </cell>
     </div>
     <div class="player-actions">
-      <v-btn v-on:click="getCellsMove">Se déplacer</v-btn>
-      <v-btn v-on:click="getCellsAttack">Attaquer</v-btn>
+      <v-btn
+        v-on:click="getCellsMove"
+        :disabled="playerTurn !== user || playerTurn === ''"
+        >Se déplacer</v-btn
+      >
+      <v-btn
+        v-on:click="getCellsAttack"
+        :disabled="playerTurn !== user || playerTurn === ''"
+        >Attaquer</v-btn
+      >
     </div>
     <div class="players-life">
       <div v-for="player in listPlayerPos" v-bind:key="player.id">
@@ -25,9 +36,10 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
+
 import GridData from "../../models/GridData";
 import Cell from "../../components/Cell.vue";
-import Player from "@/models/Player";
 
 export default {
   components: { Cell },
@@ -37,16 +49,25 @@ export default {
     //TODO : make the player join
     // don't know where to put it but : this.$route.params.id to get the game id
     cells: [],
-    playerTurn: "player1",
+    user: "",
+    playerTurn: "",
     playerMovement: "moving",
-    listPlayerPos: [new Player("player1", 1, 1), new Player("player2", 10, 10)],
+    listPlayerPos: [],
     grid: new GridData(),
   }),
-  async created() {
+  mounted() {
+    this.setGame();
     this.grid.GetCellsFromJson();
     this.cells = this.grid.cells;
   },
   methods: {
+    ...mapActions("game", ["get", "changeTurn"]),
+    async setGame() {
+      const game = await this.get(this.$route.params.id);
+      console.log(game);
+      this.listPlayerPos = game.listPlayerPos;
+      this.playerTurn = game.playerTurn;
+    },
     clicked(e) {
       if (this.playerMovement == "moving") {
         this.movePlayer(e.x, e.y);
@@ -77,17 +98,24 @@ export default {
       }
       this.changeTurn();
     },
-    changeTurn() {
+    async changeTurn() {
       this.$emit("cell-walkable", []);
-      const playerIndex = this.listPlayerPos.findIndex(
-        (x) => x.id == this.playerTurn
+      const data = await this.changeTurn(
+        this.$route.params.id,
+        this.playerTurn,
+        0,
+        0
       );
-      const playersListSize = this.listPlayerPos.length;
-      if (playerIndex == playersListSize - 1) {
-        this.playerTurn = this.listPlayerPos[0].id;
-      } else {
-        this.playerTurn = this.listPlayerPos[playerIndex + 1].id;
-      }
+      this.playerTurn = data.playerTurn;
+      /*const playerIndex = this.listPlayerPos.findIndex(
+		  (x) => x.id == this.playerTurn
+		);
+		const playersListSize = this.listPlayerPos.length;
+		if (playerIndex == playersListSize - 1) {
+		  this.playerTurn = this.listPlayerPos[0].id;
+		} else {
+		  this.playerTurn = this.listPlayerPos[playerIndex + 1].id;
+		}*/
     },
     getCellsMove() {
       const player = this.listPlayerPos.find((x) => x.id == this.playerTurn);

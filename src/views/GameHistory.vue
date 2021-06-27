@@ -47,21 +47,19 @@ export default {
   data: () => ({
     games: [],
   }),
-  created: function () {
+  mounted() {
     this.getGames();
-  },
-  computed: {
-    getFinishedGames() {
-      return this.games.filter((x) => x.done);
-    },
-    getUnfinishedGames() {
-      return this.games.filter((x) => !x.done);
-    },
   },
   methods: {
     ...mapActions("game", ["getAll"]),
     async getGames() {
       return await this.getAll();
+    },
+    getFinishedGames() {
+      return this.games.filter((x) => x.done);
+    },
+    getUnfinishedGames() {
+      return this.games.filter((x) => !x.done);
     },
   },
 };

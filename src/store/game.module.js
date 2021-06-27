@@ -69,7 +69,20 @@ const actions = {
     const response = await gameService.join(gameId);
     if (!response.error) {
       commit("join", response);
-      return true;
+      return response;
+    }
+    return false;
+  },
+  async changeTurn({ commit }, gameId, playerTurn, posX, posY) {
+    const response = await gameService.changeTurn(
+      gameId,
+      playerTurn,
+      posX,
+      posY
+    );
+    if (!response.error) {
+      commit("getSet", response.game);
+      return response;
     }
     return false;
   },
