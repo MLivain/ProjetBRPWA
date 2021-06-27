@@ -40,7 +40,7 @@ export default {
     async joinParty() {
       try {
         const game = await this.join(this.codeParty);
-        await this.$router.push(`game/${game.id}`);
+        await this.$router.push(`game/${game.game.id}`);
       } catch (e) {
         console.error(e);
       }
